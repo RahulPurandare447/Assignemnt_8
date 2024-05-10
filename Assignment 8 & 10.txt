@@ -1,0 +1,183 @@
+Assignment 8 & 10
+
+import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.*;
+import javafx.stage.Stage;
+
+public class EmployeeManagementApp extends Application {
+
+    private TableView<Employee> tableView;
+    private TextField idField, nameField, ageField, emailField, departmentField;
+    private ObservableList<Employee> employees;
+
+    @Override
+    public void start(Stage primaryStage) {
+        // Create UI elements
+        Label idLabel = new Label("Employee ID:");
+        Label nameLabel = new Label("Name:");
+        Label ageLabel = new Label("Age:");
+        Label emailLabel = new Label("Email:");
+        Label departmentLabel = new Label("Department:");
+
+        idField = new TextField();
+        nameField = new TextField();
+        ageField = new TextField();
+        emailField = new TextField();
+        departmentField = new TextField();
+
+        Button createTableButton = new Button("Create Employee Table");
+        Button viewEmployeesButton = new Button("View Employees");
+        Button updateEmployeeButton = new Button("Update Employee");
+
+        tableView = new TableView<>();
+        employees = FXCollections.observableArrayList();
+
+        tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
+        TableColumn<Employee, String> idColumn = new TableColumn<>("Employee ID");
+        idColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
+
+        TableColumn<Employee, String> nameColumn = new TableColumn<>("Name");
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+
+        TableColumn<Employee, Integer> ageColumn = new TableColumn<>("Age");
+        ageColumn.setCellValueFactory(new PropertyValueFactory<>("age"));
+
+        TableColumn<Employee, String> emailColumn = new TableColumn<>("Email");
+        emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
+
+        TableColumn<Employee, String> departmentColumn = new TableColumn<>("Department");
+        departmentColumn.setCellValueFactory(new PropertyValueFactory<>("department"));
+
+        tableView.getColumns().addAll(idColumn, nameColumn, ageColumn, emailColumn, departmentColumn);
+        tableView.setItems(employees);
+
+        // Layout for input fields
+        GridPane inputGrid = new GridPane();
+        inputGrid.add(idLabel, 0, 0);
+        inputGrid.add(nameLabel, 0, 1);
+        inputGrid.add(ageLabel, 0, 2);
+        inputGrid.add(emailLabel, 0, 3);
+        inputGrid.add(departmentLabel, 0, 4);
+        inputGrid.add(idField, 1, 0);
+        inputGrid.add(nameField, 1, 1);
+        inputGrid.add(ageField, 1, 2);
+        inputGrid.add(emailField, 1, 3);
+        inputGrid.add(departmentField, 1, 4);
+
+        // Layout for buttons
+        HBox buttonBox = new HBox(10);
+        buttonBox.getChildren().addAll(createTableButton, viewEmployeesButton, updateEmployeeButton);
+
+        // Layout for main UI
+        VBox root = new VBox(10);
+        root.getChildren().addAll(inputGrid, buttonBox, tableView);
+
+        // Event handling
+        createTableButton.setOnAction(e -> createEmployeeTable());
+        viewEmployeesButton.setOnAction(e -> viewEmployees());
+        updateEmployeeButton.setOnAction(e -> updateEmployee());
+
+        // Set up scene and stage
+        Scene scene = new Scene(root, 600, 400);
+        primaryStage.setScene(scene);
+        primaryStage.setTitle("Employee Management System");
+        primaryStage.show();
+    }
+
+    // Method to create employee table (dummy implementation)
+    private void createEmployeeTable() {
+        // This method could be implemented to create an employee table in a database or elsewhere.
+        // For demonstration purposes, we'll just add some dummy data.
+        employees.add(new Employee("001", "John Doe", 30, "john@example.com", "IT"));
+        employees.add(new Employee("002", "Jane Smith", 25, "jane@example.com", "HR"));
+    }
+
+    // Method to view registered employees (dummy implementation)
+    private void viewEmployees() {
+        // This method could be implemented to retrieve and display registered employees from a database.
+        // For demonstration purposes, we'll just display the employees added in the createEmployeeTable method.
+        tableView.setItems(employees);
+    }
+
+    // Method to update employee information (dummy implementation)
+    private void updateEmployee() {
+        // This method could be implemented to update employee information in a database.
+        // For demonstration purposes, we'll just update the information of the first employee in the list.
+        if (!employees.isEmpty()) {
+            Employee employee = employees.get(0);
+            employee.setName(nameField.getText());
+            employee.setAge(Integer.parseInt(ageField.getText()));
+            employee.setEmail(emailField.getText());
+            employee.setDepartment(departmentField.getText());
+            tableView.refresh();
+        }
+    }
+
+    // Employee class to hold employee details
+    private static class Employee {
+        private String id;
+        private String name;
+        private int age;
+        private String email;
+        private String department;
+
+        public Employee(String id, String name, int age, String email, String department) {
+            this.id = id;
+            this.name = name;
+            this.age = age;
+            this.email = email;
+            this.department = department;
+        }
+
+        // Getters and setters
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public int getAge() {
+            return age;
+        }
+
+        public void setAge(int age) {
+            this.age = age;
+        }
+
+        public String getEmail() {
+            return email;
+        }
+
+        public void setEmail(String email) {
+            this.email = email;
+        }
+
+        public String getDepartment() {
+            return department;
+        }
+
+        public void setDepartment(String department) {
+            this.department = department;
+        }
+    }
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+}
