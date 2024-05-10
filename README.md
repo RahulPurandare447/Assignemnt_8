@@ -1,4 +1,4 @@
-# Assignemnt_8
+# Assignment_8
 The Employee Management System is a JavaFX application designed to help users manage employee information efficiently. With this application, users can input employee details such as employee ID, name, age, email, and department. The user-friendly interface allows for easy input and management of employee data.
 
 Features
